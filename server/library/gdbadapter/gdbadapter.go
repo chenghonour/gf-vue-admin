@@ -7,8 +7,8 @@ import (
 
 	"github.com/gogf/gf/database/gdb"
 
-	"github.com/casbin/casbin/model"
-	"github.com/casbin/casbin/persist"
+	"github.com/casbin/casbin/v2/model"
+	"github.com/casbin/casbin/v2/persist"
 )
 
 type CasbinRule struct {
@@ -202,7 +202,6 @@ func loadPolicyLine(rule CasbinRule, model model.Model) {
 // LoadPolicy loads policy from database.
 // LoadPolicy 从数据库加载策略。
 func (a *Adapter) LoadPolicy(model model.Model) error {
-	//var lines []CasbinRule
 	lines := ([]CasbinRule)(nil)
 
 	if err := a.db.Table(a.tableName).Scan(&lines); err != nil {
@@ -321,27 +320,26 @@ func (a *Adapter) RemoveFilteredPolicy(sec string, ptype string, fieldIndex int,
 
 func rawDelete(a *Adapter, line CasbinRule) error {
 	db := a.db.Table(a.tableName).Safe()
-
-	db.Where("ptype = ?", line.PType)
+	condition := gdb.Map{"ptype": line.PType}
 	if line.V0 != "" {
-		db.Where("v0 = ?", line.V0)
+		condition["v0"] = line.V0
 	}
 	if line.V1 != "" {
-		db.Where("v1 = ?", line.V1)
+		condition["v1"] = line.V0
 	}
 	if line.V2 != "" {
-		db.Where("v2 = ?", line.V2)
+		condition["v2"] = line.V2
 	}
 	if line.V3 != "" {
-		db.Where("v3 = ?", line.V3)
+		condition["v3"] = line.V3
 	}
 	if line.V4 != "" {
-		db.Where("v4 = ?", line.V4)
+		condition["v4"] = line.V4
 	}
 	if line.V5 != "" {
-		db.Where("v5 = ?", line.V5)
+		condition["v5"] = line.V5
 	}
 
-	_, err := db.Delete()
+	_, err := db.Delete(condition)
 	return err
 }
