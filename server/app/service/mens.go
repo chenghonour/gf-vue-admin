@@ -19,7 +19,7 @@ import (
 func getMenuTreeMap(authorityId string) (treeMap map[string][]*model.AuthorityMenu, err error) {
 	authorityMenus := ([]*model.AuthorityMenu)(nil)
 	treeMap = make(map[string][]*model.AuthorityMenu)
-	err = g.DB("default").Table("menus m").Safe().RightJoin("authority_menu a", "m.id=a.menu_id").Where(g.Map{"authority_id": authorityId}).Structs(&authorityMenus)
+	err = g.DB("default").Table("menus m").Safe().RightJoin("authority_menu a", "m.id=a.menu_id").Where(g.Map{"authority_id": authorityId}).Order(`sort`).Structs(&authorityMenus)
 	for _, v := range authorityMenus {
 		treeMap[v.ParentId] = append(treeMap[v.ParentId], v)
 	}
@@ -136,19 +136,21 @@ func CreateBaseMenu(create *request.CreateBaseMenu) (err error) {
 		Hidden:    utils.BoolToInt(create.Hidden),
 		Component: create.Component,
 		Sort:      create.Sort,
-		Title:     create.Title,
-		Icon:      create.Icon,
+		Title:     create.Meta.Title,
+		Icon:      create.Meta.Icon,
 	}
 	_, err = menus.Insert(insert)
 	if menu, err = menus.FindOne(g.Map{"name": create.Name}); err != nil {
 		return err
 	}
-	var inserts g.List
-	for _, v := range create.Parameters {
-		value := g.Map{"base_menu_id": int(menu.Id), "value": v.Value, "key": v.Key, "type": v.Type}
-		inserts = append(inserts, value)
+	if len(create.Parameters) != 0 {
+		var inserts g.List
+		for _, v := range create.Parameters {
+			value := g.Map{"base_menu_id": int(menu.Id), "value": v.Value, "key": v.Key, "type": v.Type}
+			inserts = append(inserts, value)
+		}
+		_, err = parameters.Insert(inserts)
 	}
-	_, err = parameters.Insert(inserts)
 	return err
 }
 
@@ -157,7 +159,7 @@ func CreateBaseMenu(create *request.CreateBaseMenu) (err error) {
 func DeleteBaseMenu(delete *request.GetById) (err error) {
 	db := g.DB(global.Db).Table("authority_menu").Safe()
 	parametersDb := g.DB(global.Db).Table("parameters").Safe()
-	if menus.RecordNotFound(g.Map{"parent_id": delete.Id}) {
+	if !menus.RecordNotFound(g.Map{"parent_id": delete.Id}) {
 		return errors.New("此菜单存在子菜单不可删除")
 	}
 	_, err = menus.Delete(g.Map{"id": delete.Id})
