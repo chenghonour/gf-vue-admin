@@ -122,22 +122,9 @@ go build
 
 ### 4.3 目录结构
 
-```
-    ├─server  	     （后端文件夹）
-    └─web            （前端文件）
-        ├─public        （发布模板）
-        └─src           （源码包）
-            ├─api       （向后台发送ajax的封装层）
-            ├─assets	（静态文件）
-            ├─components（组件）
-            ├─router	（前端路由）
-            ├─store     （vuex 状态管理仓）
-            ├─style     （通用样式文件）
-            ├─utils     （前端工具库）
-            └─view      （前端页面）
-```
+[前端请看此目录](https://sliverhorn.github.io/gf-vue-admin-doc/Manual/directory/#server)
 
-[后端请看此目录](server/db/后端目录结构.md)
+[后端请看此目录](https://sliverhorn.github.io/gf-vue-admin-doc/Manual/directory/#server)
 
 ## 5. 主要功能
 
@@ -203,20 +190,7 @@ go build
 
 ### 8.2 项目组成员
 
-| 蒋 | 尹 | 严 | 杜 | 印 | 宋 | 赖 | 卢 |
-|  :---:  |  :---: | :---: | :---:  |  :---: | :---: | :---: | :---: |
-| <img width="150" src="http://qmplusimg.henrongyi.top/qrjjz.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qryx.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qryr.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qrdjl.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qrygl.png"> | <img width="150" src="http://qmplusimg.henrongyi.top/qrsong.png"> | <img src="https://sliverhorn.github.io/gf-vue-admin-doc/Images/index/image-20200803170441708.png" alt="image-20200803170441708" width="170px" /> | <img src="https://sliverhorn.github.io/gf-vue-admin-doc/Images/index/image-20200803181537723.png" alt="image-20200803181537723" width="170px" /> |
-
-|  昵称   | 项目职务  | 姓  |
-|  ----  | ----  | ----  |
-| [@piexlmax](https://github.com/piexlmax)  | 项目发起者 | 蒋 |
-| [@granty1](https://github.com/granty1)  | 后台开发 | 印 |
-| [@Ruio9244](https://github.com/Ruio9244)  | 全栈开发 | 严 |
-| [@1319612909](https://github.com/1319612909)  | 前端UI开发 |  杜 |
-| [@krank666](https://github.com/krank666)  | 前端开发 | 尹 |
-| [@chen-chen-up](https://github.com/chen-chen-up)  | 新手开发 | 宋 |
-| [@SliverHorn](https://github.com/SliverHorn)  | 社区管理员 | 赖 |
-| [@LLemonGreen](https://github.com/orgs/flipped-aurora/people/LLemonGreen) | 文档编纂员 | 卢 |
+[关于我们](https://www.gin-vue-admin.com/about/)
 
 ## 9. 捐赠
 
