@@ -51,22 +51,35 @@ func CreateTemp(autoCode model.AutoCodeStruct) (err error) {
 			dataList[index].autoCodePath = autoPath + "readme.txt"
 			continue
 		}
+
+		if trimBase == "fe/table.vue.tpl" || trimBase == "fe/api.vue.tpl" { // 为了让table/api文件夹名变为autoCode.PackageName
+			if lastSeparator := strings.LastIndex(trimBase, "/"); lastSeparator != -1 {
+				origFileName := strings.TrimSuffix(trimBase[lastSeparator+1:], ".tpl")
+				firstDot := strings.Index(origFileName, ".")
+				if firstDot != -1 {
+					dataList[index].autoCodePath = autoPath + trimBase[:lastSeparator] + "/" + autoCode.TableName + "/" + autoCode.PackageName + "/" + autoCode.PackageName + origFileName[firstDot:]
+					needMkdir = append(needMkdir, autoPath+trimBase[:lastSeparator]+"/"+autoCode.TableName+"/"+autoCode.PackageName)
+					continue
+				}
+			}
+		}
+
 		if trimBase == "te/model.go.tpl" || trimBase == "te/model_entity.go.tpl" || trimBase == "te/model_model.go.tpl" {
 			if lastSeparator := strings.LastIndex(trimBase, "/"); lastSeparator != -1 {
 				origFileName := strings.TrimSuffix(trimBase[lastSeparator+1:], ".tpl")
 				firstDot := strings.Index(origFileName, ".")
 				if firstDot != -1 {
 					if origFileName == "model.go" {
-						dataList[index].autoCodePath = autoPath + trimBase[:lastSeparator] + "/" + autoCode.PackageName + "/" + autoCode.PackageName + "/" + autoCode.PackageName + origFileName[firstDot:]
+						dataList[index].autoCodePath = autoPath + trimBase[:lastSeparator] + "/" + autoCode.TableName + "/" + autoCode.TableName + "/" + autoCode.TableName + origFileName[firstDot:]
 						continue
 					}
 					if origFileName == "model_entity.go" {
-						dataList[index].autoCodePath = autoPath + trimBase[:lastSeparator] + "/" + autoCode.PackageName + "/" + autoCode.PackageName + "/" + autoCode.PackageName + "_entity" + origFileName[firstDot:]
+						dataList[index].autoCodePath = autoPath + trimBase[:lastSeparator] + "/" + autoCode.TableName + "/" + autoCode.TableName + "/" + autoCode.TableName + "_entity" + origFileName[firstDot:]
 						continue
 					}
 					if origFileName == "model_model.go" {
-						dataList[index].autoCodePath = autoPath + trimBase[:lastSeparator] + "/" + autoCode.PackageName + "/" + autoCode.PackageName + "/" + autoCode.PackageName + "_model" + origFileName[firstDot:]
-						needMkdir = append(needMkdir, autoPath+trimBase[:lastSeparator]+"/"+autoCode.PackageName+"/"+autoCode.PackageName)
+						dataList[index].autoCodePath = autoPath + trimBase[:lastSeparator] + "/" + autoCode.TableName + "/" + autoCode.TableName + "/" + autoCode.TableName + "_model" + origFileName[firstDot:]
+						needMkdir = append(needMkdir, autoPath+trimBase[:lastSeparator]+"/"+autoCode.TableName+"/"+autoCode.TableName)
 						continue
 					}
 				}
@@ -78,8 +91,8 @@ func CreateTemp(autoCode model.AutoCodeStruct) (err error) {
 			origFileName := strings.TrimSuffix(trimBase[lastSeparator+1:], ".tpl")
 			firstDot := strings.Index(origFileName, ".")
 			if firstDot != -1 {
-				dataList[index].autoCodePath = autoPath + trimBase[:lastSeparator] + "/" + autoCode.PackageName + "/" +
-					origFileName[:firstDot] + "/" + autoCode.PackageName + origFileName[firstDot:]
+				dataList[index].autoCodePath = autoPath + trimBase[:lastSeparator] + "/" + autoCode.TableName + "/" +
+					origFileName[:firstDot] + "/" + autoCode.TableName + origFileName[firstDot:]
 			}
 		}
 
